@@ -1,15 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import './App.css';
 
-import { Router, Route, Switch, Link } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Indoor from './components/Indoor';
-import Header from './components/Header';
-import About from './components/About';
-import Services from './components/services';
-import Carausal from './components/carausal';
-import Teams from './components/Teams';
-import Footer from './components/footer';
+
 import Home from './components/Home';
 function App() {
   return (

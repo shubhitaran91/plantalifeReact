@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import {Link, Router} from 'react-router-dom'
 class services extends Component {
+    constructor() {
+        
+        this.state = {
+        
+        };
+    }
+    requestInfo(id){
+
+    }
+
     render() {
         return (
             <div>
@@ -22,7 +32,7 @@ class services extends Component {
                         <div className="col-12 col-sm-2">
                             <div className="single-benefits-area">
                               {/* <Link to="/indoor"><h2>fygsyg</h2></Link> */}
-                                <Link to="/indoor"><img src={require("../static/img/core-img/4.png")} height={150} width={150} alt="" /></Link>
+                                <Link to="/indoor" onClick={this.requestInfo(id)}><img src={require("../static/img/core-img/4.png")} height={150} width={150} alt="" /></Link>
                               
                                 <h5 style={{textAlign: "center"}}>Indoor Plants</h5>
                                 <p></p>
