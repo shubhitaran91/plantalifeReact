@@ -22,15 +22,18 @@ const useStyles = makeStyles({
 
 const Indoor = () => {
     const [plant, setplant] = useState([]);
+   
     // plantPhoto : pic.plant_photo
     // useEffect(()=>{
     async function fetchdata() {
         const res = await axios.get('http://localhost:5000/getAllPlantData')
         let list = res.data.message
         setplant(list)
-        
+        // console.log(this.props.location.query.plant_type) 
 
     }
+
+   
     fetchdata()
     // });
 

@@ -6,6 +6,10 @@ import { Route, Switch } from 'react-router-dom'
 import Indoor from './components/Indoor';
 
 import Home from './components/Home';
+
+
+
+
 function App() {
   return (
  
@@ -13,7 +17,12 @@ function App() {
     
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/indoor" component={Indoor} />
+        <Route name="/indoor" component={Indoor} />
+        {/* <Route name="/outdoor" component={Indoor} />
+        <Route name="/indoor" component={Indoor} />
+        <Route name="/indoor" component={Indoor} />
+        <Route name="/indoor" component={Indoor} />
+        <Route name="/indoor" component={Indoor} /> */}
         
       </Switch>
      
