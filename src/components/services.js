@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
 import {Link, BrowserRouter as Router ,Route, withRouter} from 'react-router-dom'
-
+import  plantService  from "../service/plantService"
 class services extends Component {
     constructor() {
         super()
         this.state = {
-        // plant_type:
+        //   query:''
         };
     }
-requestId(){
-    const {history}= this.props;
-   // eslint-disable-next-line no-restricted-globals
-    history.push({
-        pathname: '/indoor',
-        search: '?plant_type:indoor'
-      })
+    
+
+
+    handleInput(e,name){
+    //  this.setState({
+    //      query:e.target.value
+    //  })
+    // const {history}= this.props;
+    // let pageName = e.target.value
+    console.log("value of state",name)
+    // eslint-disable-next-line no-restricted-globals
+     location.assign(`plantData?plant_type=${name}`);
+    // history.push( {pathname:'/indoor',search :`?plant_type${e.target}`})
+        
+      
 }
     render() {
-      
+        // const {history}= this.props;
         return (
             
             <div>
@@ -42,7 +50,7 @@ requestId(){
                         <div className="col-12 col-sm-2">
                             <div className="single-benefits-area">
                               {/* <Link to="/indoor"><h2>fygsyg</h2></Link> */}
-                                <Link to="/indoor" onClick={this.requestId}><img src={require("../static/img/core-img/4.png")} height={150} width={150} alt="" /></Link>
+                                <a onClick={e => this.handleInput(e, "Indoor")}><img src={require("../static/img/core-img/4.png")} height={150} width={150} alt="" /></a>
                               
                                 <h5 style={{textAlign: "center"}}>Indoor Plants</h5>
                                 <p></p>
@@ -52,7 +60,7 @@ requestId(){
                         {/* <!-- Single Benefits Area --> */}
                         <div className="col-12 col-sm-2">
                             <div className="single-benefits-area">
-                                <Link to="/outdoor"> <img src={require("../static/img/core-img/b2.png")} height={150} width={150} alt="" /></Link>
+                                <a onClick={e => this.handleInput(e, "Outdoor")}> <img src={require("../static/img/core-img/b2.png")} height={150} width={150} alt="" /></a>
                                 <h5 style={{textAlign: "center"}}>Outdoor Plants</h5>
                                 <p></p>
                             </div>
@@ -61,7 +69,7 @@ requestId(){
                         {/* <!-- Single Benefits Area --> */}
                         <div className="col-12 col-sm-2">
                             <div className="single-benefits-area">
-                                <Link to="/pots"><img src={require("../static/img/core-img/3.42")} height={150} width={150} alt="" /></Link>
+                                <a onClick={e => this.handleInput(e, "pots")}><img src={require("../static/img/core-img/3.42")} height={150} width={150} alt="" /></a>
 
                                 <h5 style={{textAlign: "center"}}>Pots</h5>
                                 <p></p>
@@ -71,21 +79,21 @@ requestId(){
                         {/* <!-- Single Benefits Area --> */}
                         <div className="col-12 col-sm-2">
                             <div className="single-benefits-area">
-                                <Link to="seeds"><img src={require("../static/img/core-img/2.png")} height={150} width={150} alt="" /></Link>
+                                <a onClick={e => this.handleInput(e, "seeds-grass")}><img src={require("../static/img/core-img/2.png")} height={150} width={150} alt="" /></a>
                                 <h5 style={{textAlign: "center"}}>Seeds/Grass</h5>
                                 <p></p>
                             </div>
                         </div>
                         <div className="col-12 col-sm-2">
                             <div className="single-benefits-area">
-                                <Link to="gardening"><img src={require("../static/img/core-img/6.18")} height={150} width={150}  alt="" /></Link>
+                                <a onClick={e => this.handleInput(e, "gardening")}><img src={require("../static/img/core-img/6.18")} height={150} width={150}  alt="" /></a>
                                 <h5 style={{textAlign: "center"}}>Gardening Tools</h5>
                                 <p></p>
                             </div>
                         </div>
                         <div className="col-12 col-sm-2">
                             <div className="single-benefits-area">
-                                <Link to="homedecor"><img src={require("../static/img/core-img/1.22")} height={150} width={150}  alt="" /></Link>
+                                <a onClick={e => this.handleInput(e, "homedecor")}><img src={require("../static/img/core-img/1.22")} height={150} width={150}  alt="" /></a>
                                 <h5 style={{textAlign: "center"}}>Home Decor</h5>
                                 <p></p>
                             </div>

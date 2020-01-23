@@ -10,6 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import Background from '../static/img/bg-img/24.jpg'
 import Footer from './footer';
 import axios from 'axios';
+import queryString from 'query-string';
+import Notiflix from "notiflix-react";
+import service from './services'
 const useStyles = makeStyles({
     card: {
         maxWidth: 345,
@@ -20,16 +23,28 @@ const useStyles = makeStyles({
 });
 
 
-const Indoor = () => {
+const PlantData = (props) => {
+    
     const [plant, setplant] = useState([]);
    
+    let params = queryString.parse(props.location.search,{ ignoreQueryPrefix: true }).plant_type;
+    console.log("================>",params)
     // plantPhoto : pic.plant_photo
     // useEffect(()=>{
     async function fetchdata() {
-        const res = await axios.get('http://localhost:5000/getAllPlantData')
+        try{
+        const res = await axios.post('http://localhost:5000/getPlantData',{plant_type:params})
         let list = res.data.message
-        setplant(list)
-        // console.log(this.props.location.query.plant_type) 
+        if(list == 'No Data Found'){
+            // alert(data);
+            Notiflix.Report.Info( 'Data Not Found', 'Please Try Again', 'OK' ); 
+          }else{
+            setplant(list)
+          }       
+        }catch(e){
+            Notiflix.Report.Warning( 'Network Issue', 'Please Check Your Connection', 'OK' ); 
+        }
+         
 
     }
 
@@ -45,7 +60,7 @@ const Indoor = () => {
                 {/* <!-- Top Breadcrumb Area --> */}
                 <div className="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center"
                     style={{ backgroundImage: `url(${Background})` }}>
-                    <h2>Indoor Plants</h2>
+                    <h2>{params} Plants</h2>
 
                 </div>
 
@@ -55,7 +70,7 @@ const Indoor = () => {
                             <nav aria-label="breadcrumb">
                                 <ol className="breadcrumb">
                                     <li className="breadcrumb-item"><a href="index.html"><i className="fa fa-home"></i> Home</a></li>
-                                    <li className="breadcrumb-item active" aria-current="page">Indoor Plants</li>
+                                    <li className="breadcrumb-item active" aria-current="page">{params} Plants</li>
                                 </ol>
                             </nav>
                         </div>
@@ -122,4 +137,4 @@ const Indoor = () => {
 
 }
 
-export default Indoor;
+export default PlantData;
