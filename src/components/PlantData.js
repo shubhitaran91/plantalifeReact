@@ -12,7 +12,8 @@ import Footer from './footer';
 import axios from 'axios';
 import queryString from 'query-string';
 import Notiflix from "notiflix-react";
-import service from './services'
+
+import Header from './Header';
 const useStyles = makeStyles({
     card: {
         maxWidth: 345,
@@ -24,38 +25,64 @@ const useStyles = makeStyles({
 
 
 const PlantData = (props) => {
-    
-    const [plant, setplant] = useState([]);
    
-    let params = queryString.parse(props.location.search,{ ignoreQueryPrefix: true }).plant_type;
-    console.log("================>",params)
-    // plantPhoto : pic.plant_photo
-    // useEffect(()=>{
+    var myPlant = JSON.parse(sessionStorage.getItem('myPlant'));
+     if (myPlant == null) {
+        myPlant = [];
+     }
+     
+    const [plant, setplant] = useState([]);
+
+    useEffect(() => {
+        fetchdata()
+    }
+    )
+
+
+
+    let params = queryString.parse(props.location.search, { ignoreQueryPrefix: true }).plant_type;
+    // console.log("================>", params)
+
     async function fetchdata() {
-        try{
-        const res = await axios.post('http://localhost:5000/getPlantData',{plant_type:params})
-        let list = res.data.message
-        if(list == 'No Data Found'){
-            // alert(data);
-            Notiflix.Report.Info( 'Data Not Found', 'Please Try Again', 'OK' ); 
-          }else{
-            setplant(list)
-          }       
-        }catch(e){
-            Notiflix.Report.Warning( 'Network Issue', 'Please Check Your Connection', 'OK' ); 
+        try {
+            const res = await axios.post('http://localhost:5000/getPlantData', { plant_type: params })
+            let list = res.data.message
+            if (list == 'No Data Found') {
+                // alert(data);
+                Notiflix.Report.Info('Data Not Found', 'Please Try Again', 'OK');
+            } else {
+                setplant(list)
+            }
+        } catch (e) {
+            Notiflix.Report.Warning('Network Issue', 'Please Check Your Connection', 'OK');
         }
-         
+
 
     }
+    function addToCart(photo, name, price) {
+        let photos = photo
+        let names = name
+        let prices = price
+        let jsonObj = {
+            photos,
+            names,
+            prices
+          };
+          myPlant.push(jsonObj);
 
-   
-    fetchdata()
-    // });
+          sessionStorage.setItem("myPlant", JSON.stringify(myPlant));
+    }
+
+
+
 
 
     const classes = useStyles();
     return (
         <div>
+           <Header />
+              
+                
             <div className="breadcrumb-area">
                 {/* <!-- Top Breadcrumb Area --> */}
                 <div className="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center"
@@ -108,13 +135,13 @@ const PlantData = (props) => {
                                                                 {plants.plant_name}
                                                             </Typography>
                                                             <Typography variant="body2" color="textSecondary" component="p">
-                                                            {`\u20B9${plants.plant_price}`}
+                                                                {`\u20B9${plants.plant_price}`}
                                                             </Typography>
 
                                                         </CardContent>
                                                     </CardActionArea>
                                                     <CardActions>
-                                                        <Button size="small" color="primary">
+                                                        <Button size="small" onClick={() => addToCart(plants.plant_photo, plants.plant_name, plants.plant_price)} color="primary">
                                                             Add To Card
                                                 </Button>
                                                         <Button size="small" color="primary">

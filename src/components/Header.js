@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AddToCard from './AddToCard';
 
 class Header extends Component {
     render() {
@@ -23,7 +24,7 @@ class Header extends Component {
 
 
                                         <div className="top-header-meta d-flex">
-
+                                         <AddToCard />
 
 
                                         </div>
