@@ -55,7 +55,7 @@ class Checkout extends Component {
         };
         
         const getCheckoutData = await service.getCheckoutData(jsonObj);
-        
+       
         console.log("getCheckoutData",getCheckoutData);
       }
       
