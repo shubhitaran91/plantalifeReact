@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import AddToCard from "./AddToCard";
-
+import {
+  Link
+} from "react-router-dom";
 class Header extends Component {
   render() {
     return (
@@ -23,15 +25,15 @@ class Header extends Component {
                         <i className="fa fa-envelope-o" aria-hidden="true"></i>{" "}
                         <span>Email: plantalifee@gmail.com</span>
                       </a>
-                      <a
-                        href="contact.html"
+                      <Link to="contact"
+                        
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="7790901214"
                       >
                         <i className="fa fa-phone" aria-hidden="true"></i>{" "}
                         <span>Call Us: 7790901214</span>
-                      </a>
+                      </Link>
                     </div>
 
                     <div className="top-header-meta d-flex">
