@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Link from "react-router-dom";
+import {Link} from "react-router-dom";
 import Background from "../static/img/bg-img/24.jpg";
 import service from "../service/plantService";
 
@@ -149,14 +149,14 @@ class Checkout extends Component {
             {/* <!-- Menu --> */}
             <nav className="" id="plantalifeNav">
               {/* <!-- Nav Brand --> */}
-              <a href="index.html" className="nav-brand">
+              <Link to="home" className="nav-brand">
                 <img
                   src="img/core-img/logo.png"
                   height="100"
                   width="100"
                   alt=""
                 />
-              </a>
+              </Link>
 
               <ul>
                 <li>

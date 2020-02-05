@@ -51,14 +51,14 @@ class Header extends Component {
             {/* <!-- Menu --> */}
             <nav className="" id="plantalifeNav">
               {/* <!-- Nav Brand --> */}
-              <a href="index.html" className="nav-brand">
+              <Link to ="home" className="nav-brand">
                 <img
                   src={require("../static/img/core-img/logo.png")}
                   height="100"
                   width="100"
                   alt=""
                 />
-              </a>
+              </Link>
             </nav>
           </div>
         </header>

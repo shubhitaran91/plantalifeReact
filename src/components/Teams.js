@@ -53,7 +53,7 @@ class Teams extends Component {
                 <div className="single-team-member text-center mb-100">
                   {/* <!-- Team Member Thumb --> */}
                   <div className="team-member-thumb">
-                    <img src="img/bg-img/team2.png" alt="" />
+                    {/* <img src="img/bg-img/team2.png" alt="" /> */}
                     {/* <!-- Social Info --> */}
                     <div className="team-member-social-info">
                       <a href="https://www.facebook.com/profile.php?id=100025533876430">

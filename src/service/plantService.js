@@ -20,7 +20,29 @@ export function getCheckoutData(data){
     
 }
 
+export async function getShoppingData(data){
+    const res =await axios.post('http://localhost:5000/shopDetails',data)
+        console.log("========>",res.data.message)
+       
+        return res;
+
+}
+export async function getAdminData(data){
+    const res =await axios.post('http://localhost:5000/uploadPlantData',data)
+    const result=res.data.message
+        console.log("========>",result)
+        if(result == "error"){
+            Notiflix.Report.Failure( 'Oops Something went wrong', 'Please Try Again', 'OK' );
+        }else{
+            Notiflix.Report.Success( 'Item Added Successfully', 'Click OK To Continue' );
+        }
+        return res;
+
+}
+
 export default {
     getAllPlants,
-    getCheckoutData
+    getCheckoutData,
+    getShoppingData,
+    getAdminData
 };

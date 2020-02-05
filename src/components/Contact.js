@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Background from "../static/img/bg-img/24.jpg";
 import Footer from "./footer";
+import {Link} from "react-router-dom";
 class Contact extends Component {
   render() {
     return (
@@ -62,14 +63,14 @@ class Contact extends Component {
                   class="classy-navbar justify-content-between"
                   id="plantalifeNav"
                 >
-                  <a href="index.html" class="nav-brand">
+                  <Link to="home" class="nav-brand">
                     <img
                       src={require("../static/img/core-img/logo.png")}
                       height="100"
                       width="100"
                       alt=""
                     />
-                  </a>
+                  </Link>
 
                   <div class="classy-navbar-toggler">
                     <span class="navbarToggler">

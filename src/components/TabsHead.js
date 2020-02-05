@@ -38,7 +38,7 @@ class TabsHead extends Component {
               <Tabs.Tab id="tab2" title="Additional Information">
                 <div class="additional_info_area">
                   <p>
-                    What should I do if I receive a damaged parcel?
+                    <strong>1. What should I do if I receive a damaged parcel?</strong>
                     <br />{" "}
                     <span>
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -47,7 +47,7 @@ class TabsHead extends Component {
                     </span>
                   </p>
                   <p>
-                    I have received my order but the wrong item was delivered to
+                  <strong>  2. I have received my order but the wrong item was delivered to</strong>
                     me.
                     <br />{" "}
                     <span>
@@ -56,7 +56,7 @@ class TabsHead extends Component {
                     </span>
                   </p>
                   <p>
-                    Product Receipt and Acceptance Confirmation Process
+                  <strong> 3. Product Receipt and Acceptance Confirmation Process</strong>
                     <br />{" "}
                     <span>
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -64,7 +64,7 @@ class TabsHead extends Component {
                     </span>
                   </p>
                   <p>
-                    How do I cancel my order?
+                   <strong>4. How do I cancel my order?</strong>
                     <br />{" "}
                     <span>
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -88,7 +88,7 @@ class TabsHead extends Component {
                         </div>
                         <div class="review-details">
                           <p>
-                            by <a href="#">Colorlib</a> on{" "}
+                            by <a href="#">shubhitaran@gmail.com</a> on{" "}
                             <span>12 Sep 2018</span>
                           </p>
                         </div>
@@ -104,7 +104,7 @@ class TabsHead extends Component {
                         </div>
                         <div class="review-details">
                           <p>
-                            by <a href="#">Colorlib</a> on{" "}
+                            by <a href="#">shubhitaran</a> on{" "}
                             <span>12 Sep 2018</span>
                           </p>
                         </div>
@@ -120,7 +120,7 @@ class TabsHead extends Component {
                         </div>
                         <div class="review-details">
                           <p>
-                            by <a href="#">Colorlib</a> on{" "}
+                            by <a href="#">shubhitaran</a> on{" "}
                             <span>12 Sep 2018</span>
                           </p>
                         </div>

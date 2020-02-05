@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Background from "../static/img/bg-img/3.jpg";
+import { Link } from "react-router-dom";
 
 class footer extends Component {
   render() {
@@ -17,14 +18,14 @@ class footer extends Component {
                 <div className="col-12 col-sm-6 col-lg-4">
                   <div className="single-footer-widget">
                     <div className="footer-logo mb-30">
-                      <a href="#">
+                      <Link to="home">
                         <img
                           src={require("../static/img/core-img/logo.png")}
                           height="200"
                           width="200"
                           alt=""
                         />
-                      </a>
+                      </Link>
                     </div>
                     <p></p>
                   </div>

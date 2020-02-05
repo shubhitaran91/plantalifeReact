@@ -1,16 +1,66 @@
 import React, { Component } from "react";
 import Background from "../static/img/bg-img/24.jpg";
 import Background1 from "../static/img/bg-img/Ficus.jpeg";
-
+import queryString from "query-string";
 import TabsHead from "./TabsHead";
+import service from "../service/plantService";
+import Header from "../components/Header";
+import Footer from "./footer";
 class ShopDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      param: "",
+      getdata: "",
+      myPlant:JSON.parse(sessionStorage.getItem("myPlant"))
+    };
+  }
+
+  async componentDidMount() {
+    var plant = queryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true
+    }).plant_no;
+
+    const getShoppingData = await service.getShoppingData({ plant_no: plant });
+    let getdata = getShoppingData.data.message;
+    console.log("getShopData", getdata);
+
+    await this.setState({
+      param: plant,
+      getdata: getdata,
+     
+    });
+    // console.log(this.state.param);
+  }
+  addToCart(photo, name, price) {
+    let photos = photo;
+    let names = name;
+    let prices = price;
+    let jsonObj = {
+      photos,
+      names,
+      prices
+    };
+    this.state.myPlant.push(jsonObj);
+
+    sessionStorage.setItem("myPlant", JSON.stringify(this.state.myPlant));
+
+    window.location.assign("cart");
   }
   render() {
+    if (this.state.myPlant == null) {
+      this.state.myPlant = [];
+    }
+    const {
+      plant_photo,
+      plant_name,
+      plant_price,
+      plant_desc
+    } = this.state.getdata;
+    console.log("plant_data", this.state.getdata);
     return (
       <div>
+        <Header />
         <div class="breadcrumb-area">
           <div
             class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center"
@@ -62,7 +112,7 @@ class ShopDetail extends Component {
                           >
                             <img
                               class="d-block w-100"
-                              src={require("../static/img/bg-img/Ficus.jpeg")}
+                              src={`data:image/*;base64,${plant_photo}`}
                               alt="1"
                             />
                           </a>
@@ -75,7 +125,7 @@ class ShopDetail extends Component {
                           >
                             <img
                               class="d-block w-100"
-                              src={require("../static/img/bg-img/Ficus.jpeg")}
+                              src={`data:image/*;base64,${plant_photo}`}
                               alt="1"
                             />
                           </a>
@@ -88,95 +138,33 @@ class ShopDetail extends Component {
                           >
                             <img
                               class="d-block w-100"
-                              src={require("../static/img/bg-img/Ficus.jpeg")}
+                              src={`data:image/*;base64,${plant_photo}`}
                               alt="1"
                             />
                           </a>
                         </div>
                       </div>
-                      <ol class="carousel-indicators">
-                        <li
-                          class="active"
-                          data-target="#product_details_slider"
-                          data-slide-to="0"
-                          style={{ backgroundImage: `url(${Background1})` }}
-                        ></li>
-                        <li
-                          data-target="#product_details_slider"
-                          data-slide-to="1"
-                          style={{ backgroundImage: `url(${Background1})` }}
-                        ></li>
-                        <li
-                          data-target="#product_details_slider"
-                          data-slide-to="2"
-                          style={{ backgroundImage: `url('${Background1})` }}
-                        ></li>
-                      </ol>
                     </div>
                   </div>
                 </div>
 
                 <div class="col-12 col-md-6">
                   <div class="single_product_desc">
-                    <h4 class="title">Recuerdos Plant</h4>
-                    <h4 class="price">$9.99</h4>
+                    <h4 class="title">{plant_name}</h4>
+                    <h4 class="price">{plant_price}</h4>
                     <div class="short_overview">
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Phasellus pellem malesuada in nibh selama euismod.
-                        Curabitur a rhoncus dui. Nunc lobortis cursus magna
-                        utrum faucibus. Vivamus justo nibh, pharetra non risus
-                        accumsan, tincidunt suscipit leo.
-                      </p>
+                      <p>{plant_desc}</p>
                     </div>
 
                     <div class="cart--area d-flex flex-wrap align-items-center">
-                      <form
-                        class="cart clearfix d-flex align-items-center"
-                        method="post"
+                      <button
+                        className="btn btn-success"
+                        onClick={() =>
+                          this.addToCart(plant_photo, plant_name, plant_price)
+                        }
                       >
-                        <div class="quantity">
-                          <span
-                            class="qty-minus"
-                            onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"
-                          >
-                            <i class="fa fa-minus" aria-hidden="true"></i>
-                          </span>
-                          <input
-                            type="number"
-                            class="qty-text"
-                            id="qty"
-                            step="1"
-                            min="1"
-                            max="12"
-                            name="quantity"
-                            value="1"
-                          />
-                          <span
-                            class="qty-plus"
-                            onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"
-                          >
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                          </span>
-                        </div>
-                        <button
-                          type="submit"
-                          name="addtocart"
-                          value="5"
-                          class="btn plantalife-btn ml-15"
-                        >
-                          Add to cart
-                        </button>
-                      </form>
-
-                      <div class="wishlist-compare d-flex flex-wrap align-items-center">
-                        <a href="#" class="wishlist-btn ml-15">
-                          <i class="icon_heart_alt"></i>
-                        </a>
-                        <a href="#" class="compare-btn ml-15">
-                          <i class="arrow_left-right_alt"></i>
-                        </a>
-                      </div>
+                        Add to cart
+                      </button>
                     </div>
 
                     <div class="products--meta">
@@ -233,30 +221,22 @@ class ShopDetail extends Component {
                 <div class="single-product-area mb-100">
                   <div class="product-img">
                     <a href="shop-details.html">
-                      <img src="img/bg-img/40.png" alt="" />
+                      <img
+                        src={require("../static/img/bg-img/Amaryllis.jpeg")}
+                        alt=""
+                      />
                     </a>
 
                     <div class="product-tag">
                       <a href="#">Hot</a>
                     </div>
-                    <div class="product-meta d-flex">
-                      <a href="#" class="wishlist-btn">
-                        <i class="icon_heart_alt"></i>
-                      </a>
-                      <a href="cart.html" class="add-to-cart-btn">
-                        Add to cart
-                      </a>
-                      <a href="#" class="compare-btn">
-                        <i class="arrow_left-right_alt"></i>
-                      </a>
-                    </div>
                   </div>
 
                   <div class="product-info mt-15 text-center">
                     <a href="shop-details.html">
-                      <p>Cactus Flower</p>
+                      <p>Amaryllis</p>
                     </a>
-                    <h6>$10.99</h6>
+                    <h6>{`\u20B9200`}</h6>
                   </div>
                 </div>
               </div>
@@ -265,26 +245,18 @@ class ShopDetail extends Component {
                 <div class="single-product-area mb-100">
                   <div class="product-img">
                     <a href="shop-details.html">
-                      <img src="img/bg-img/41.png" alt="" />
+                      <img
+                        src={require("../static/img/bg-img/Aricapalm.jpeg")}
+                        alt=""
+                      />
                     </a>
-                    <div class="product-meta d-flex">
-                      <a href="#" class="wishlist-btn">
-                        <i class="icon_heart_alt"></i>
-                      </a>
-                      <a href="cart.html" class="add-to-cart-btn">
-                        Add to cart
-                      </a>
-                      <a href="#" class="compare-btn">
-                        <i class="arrow_left-right_alt"></i>
-                      </a>
-                    </div>
                   </div>
 
                   <div class="product-info mt-15 text-center">
                     <a href="shop-details.html">
-                      <p>Cactus Flower</p>
+                      <p>Arica Palm</p>
                     </a>
-                    <h6>$10.99</h6>
+                    <h6>{`\u20B9200`}</h6>
                   </div>
                 </div>
               </div>
@@ -293,26 +265,20 @@ class ShopDetail extends Component {
                 <div class="single-product-area mb-100">
                   <div class="product-img">
                     <a href="shop-details.html">
-                      <img src="img/bg-img/42.png" alt="" />
+                      <img
+                        src={require("../static/img/bg-img/Alovera.jpeg")}
+                        height={250}
+                        width={100}
+                        alt=""
+                      />
                     </a>
-                    <div class="product-meta d-flex">
-                      <a href="#" class="wishlist-btn">
-                        <i class="icon_heart_alt"></i>
-                      </a>
-                      <a href="cart.html" class="add-to-cart-btn">
-                        Add to cart
-                      </a>
-                      <a href="#" class="compare-btn">
-                        <i class="arrow_left-right_alt"></i>
-                      </a>
-                    </div>
                   </div>
 
                   <div class="product-info mt-15 text-center">
                     <a href="shop-details.html">
-                      <p>Cactus Flower</p>
+                      <p>Alovera</p>
                     </a>
-                    <h6>$10.99</h6>
+                    <h6>{`\u20B9200`}</h6>
                   </div>
                 </div>
               </div>
@@ -321,36 +287,29 @@ class ShopDetail extends Component {
                 <div class="single-product-area mb-100">
                   <div class="product-img">
                     <a href="shop-details.html">
-                      <img src="img/bg-img/43.png" alt="" />
+                      <img
+                        src={require("../static/img/bg-img/Africanmarigold.jpeg")}
+                        alt=""
+                      />
                     </a>
 
                     <div class="product-tag sale-tag">
                       <a href="#">Hot</a>
                     </div>
-                    <div class="product-meta d-flex">
-                      <a href="#" class="wishlist-btn">
-                        <i class="icon_heart_alt"></i>
-                      </a>
-                      <a href="cart.html" class="add-to-cart-btn">
-                        Add to cart
-                      </a>
-                      <a href="#" class="compare-btn">
-                        <i class="arrow_left-right_alt"></i>
-                      </a>
-                    </div>
                   </div>
 
                   <div class="product-info mt-15 text-center">
                     <a href="shop-details.html">
-                      <p>Cactus Flower</p>
+                      <p>African Marigold</p>
                     </a>
-                    <h6>$10.99</h6>
+                    <h6>{`\u20B9340`}</h6>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

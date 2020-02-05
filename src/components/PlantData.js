@@ -13,7 +13,7 @@ import axios from "axios";
 import queryString from "query-string";
 import Notiflix from "notiflix-react";
 
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 // import { usePromiseTracker } from "react-promise-tracker";
 import Header from "./Header";
 import Loader from "./Loader";
@@ -54,7 +54,6 @@ const PlantData = props => {
         // alert(data);
         Notiflix.Report.Info("Data Not Found", "Please Try Again", "OK");
       } else {
-        
         setplant(list);
       }
     } catch (e) {
@@ -81,10 +80,14 @@ const PlantData = props => {
     window.location.assign("cart");
   }
 
+   function handleClick(plant_no){
+    console.log(plant_no)
+   window.location.assign(`shopdetail?plant_no=${plant_no}`);
+  }
+
   const classes = useStyles();
-  return plant.length? (
+  return plant.length ? (
     <div>
-      
       <Header />
       <div className="breadcrumb-area">
         {/* <!-- Top Breadcrumb Area --> */}
@@ -123,18 +126,18 @@ const PlantData = props => {
             <div className="col-md-12 col-lg-12">
               <div className="shop-products-area">
                 <div className="row">
-                
                   {plant.map((plants, index) => {
-                    return  (
+                    return (
                       <div className="col-12 col-md-4 col-xs-6 col-sm-6 col-lg-4 my-3 store-item">
                         <Card className={classes.card}>
                           <CardActionArea>
-                            <Link to="shopdetail"><CardMedia
+                            <a onClick={() => handleClick(plants.plant_no)} >
+                            <CardMedia
                               className={classes.media}
                               image={`data:image/*;base64,${plants.plant_photo}`}
                               title="Contemplative Reptile"
-                              
-                            /></Link>
+                             
+                            /></a>
                             <CardContent>
                               <Typography
                                 gutterBottom
@@ -182,8 +185,9 @@ const PlantData = props => {
       </section>
       <Footer />
     </div>
- 
-  ):(<Loader />)
+  ) : (
+    <Loader />
+  );
 };
 
 export default PlantData;
