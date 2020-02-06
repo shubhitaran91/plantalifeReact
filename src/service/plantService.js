@@ -3,7 +3,7 @@ import axios from 'axios';
 import Notiflix from "notiflix-react";
 export function getAllPlants(){
     const res = axios.get('http://localhost:5000/getAllPlantData')
-    console.log("========>",res)
+
     return res;
 }
 
@@ -12,6 +12,8 @@ export function getCheckoutData(data){
         console.log("========>",res)
         if(res == "error"){
             Notiflix.Report.Failure( 'Order Fail', 'Please Try Again', 'OK' );
+        }else if(res=="Please Provide all Information"){
+            Notiflix.Report.Warning( 'Please Provide all Information', 'OK' );
         }else{
             Notiflix.Report.Success( 'Order Successfull', 'Thanks Shopping with us.  Will notify you as your Order will process', 'Click OK To Continue Shopping' );
         }
@@ -28,6 +30,7 @@ export async function getShoppingData(data){
 
 }
 export async function getAdminData(data){
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
     const res =await axios.post('http://localhost:5000/uploadPlantData',data)
     const result=res.data.message
         console.log("========>",result)

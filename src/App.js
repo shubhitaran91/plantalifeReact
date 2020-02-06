@@ -11,6 +11,7 @@ import Checkout from "./components/Checkout";
 import Contact from "./components/Contact";
 import ShopDetail from "./components/ShopDetail";
 import Admin from "./components/admin";
+import DatatablePage from "./components/DatatablePage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/shopdetail" component={ShopDetail} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/admin" component={Admin} />
+        <Route path="/listofplant" component={DatatablePage}/>
       </Switch>
     </React-Fragment>
   );

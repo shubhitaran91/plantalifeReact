@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Footer from "./footer";
-import service from '../service/plantService'
+import service from "../service/plantService";
 import Notiflix from "notiflix-react";
 class Admin extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class Admin extends Component {
       plant_name: "",
       plant_price: "",
       plant_status: "",
-      //   imagePreviewUrl: "",
+      file: null,
       plant_desc: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -22,48 +22,59 @@ class Admin extends Component {
     });
   };
 
-  handleChange = async e => {
-    let files = e.target.files[0];
-    let reader = new FileReader();
-    
-    reader.onloadend = () => {
-        var size = files.size;
-        console.log(size)
-        if(size<=50000){
-            this.setState({
-                image: files,
-                imagePreviewUrl: reader.result
-              });
-        }else{
-            Notiflix.Report.Warning( 'Image size exceeds the limit of 50 KB', 'Please Try Again', 'OK' );
-        }
-      
-    };
-    reader.readAsDataURL(files);
-  };
+  onChange(e) {
+    this.setState({ file: e.target.files[0] });
+  }
+
+  //  handleChange = async e => {
+  // let files = e.target.files[0];
+  // console.log("file",files)
+  // let reader = new FileReader();
+
+  // reader.onloadend = () => {
+  //     var size = files.size;
+  //     console.log(size)
+  //     if(size<=80000){
+  //      this.setState({
+  //          image: files.name,
+  //             imagePreviewUrl: reader.result
+  //         });
+  //     }else{
+  //         Notiflix.Report.Warning( 'Image size exceeds the limit of 80 KB', 'Please Try Again', 'OK' );
+  //     }
+
+  // };
+  // reader.readAsDataURL(files);
+  //  };
 
   async onSubmit() {
+    
     const jsonObj = {
       plant_type: this.state.plant_type,
       plant_name: this.state.plant_name,
       plant_price: this.state.plant_price,
       plant_status: this.state.plant_status,
-      plant_photo: this.state.imagePreviewUrl,
       plant_desc: this.state.plant_desc
     };
+    var data = new FormData();
+    for (let key in jsonObj) {
+      data.append(key, jsonObj[key]);
+    }
 
-   const getAdminData = await service.getAdminData(jsonObj);
+    data.append("file", this.state.file);
+
+    const getAdminData = await service.getAdminData(data);
 
     console.log("getAdminData", getAdminData);
+    window.location.assign('listofplant')
   }
   render() {
-    
     const {
       plant_type,
       plant_name,
       plant_price,
       plant_status,
-      plant_photo,
+      // photo,
       plant_desc
     } = this.state;
     return (
@@ -135,9 +146,9 @@ class Admin extends Component {
                       <div className="form-group" accept="static/img/*">
                         <input
                           type="file"
-                          name="plant_photo"
-                          value={plant_photo}
-                          onChange={this.handleChange.bind(this)}
+                          // name="photo"
+                          // value={photo}
+                          onChange={this.onChange.bind(this)}
                           className="form-control"
                           placeholder="Upload Image"
                         />

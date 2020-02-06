@@ -37,7 +37,7 @@ const PlantData = props => {
 
   useEffect(() => {
     fetchdata();
-  });
+  },[]);
 
   let params = queryString.parse(props.location.search, {
     ignoreQueryPrefix: true
