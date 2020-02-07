@@ -2,10 +2,14 @@ import React, { Component } from "react";
 import Footer from "./footer";
 import service from "../service/plantService";
 import Notiflix from "notiflix-react";
+import queryString from "query-string";
+
 class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      plantdata: "",
+      param: "",
       plant_type: "",
       plant_name: "",
       plant_price: "",
@@ -13,7 +17,18 @@ class Admin extends Component {
       file: null,
       plant_desc: ""
     };
+
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    var plant = queryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true
+    }).plantno;
+
+    this.setState({
+      param: plant
+    });
   }
 
   updateInputValue = async e => {
@@ -25,6 +40,8 @@ class Admin extends Component {
   onChange(e) {
     this.setState({ file: e.target.files[0] });
   }
+
+  async encyrpt() {}
 
   //  handleChange = async e => {
   // let files = e.target.files[0];
@@ -48,35 +65,71 @@ class Admin extends Component {
   //  };
 
   async onSubmit() {
-    
-    const jsonObj = {
-      plant_type: this.state.plant_type,
-      plant_name: this.state.plant_name,
-      plant_price: this.state.plant_price,
-      plant_status: this.state.plant_status,
-      plant_desc: this.state.plant_desc
-    };
-    var data = new FormData();
-    for (let key in jsonObj) {
-      data.append(key, jsonObj[key]);
+    if (!this.state.param) {
+      console.log("add", !this.state.param);
+      var jsonObj = {
+        plant_type: this.state.plant_type,
+        plant_name: this.state.plant_name,
+        plant_price: this.state.plant_price,
+        plant_status: this.state.plant_status,
+        plant_desc: this.state.plant_desc
+      };
+      var data = new FormData();
+      for (let key in jsonObj) {
+        data.append(key, jsonObj[key]);
+      }
+
+      data.append("file", this.state.file);
+
+      const getAdminData = await service.getAdminData(data);
+
+      console.log("getAdminData", getAdminData);
+      window.location.assign("listofplant");
+    } else {
+      var plantInfo = await queryString.parse(this.props.location.search, {
+        ignoreQueryPrefix: true
+      }).plantInfo;
+      this.setState({
+        plantdata: JSON.parse(window.atob(plantInfo))
+      });
+
+      console.log("update", this.state.plantdata);
+      var jsonObj = {
+        plant_type: this.state.plantdata.plant_type,
+        plant_name: this.state.plantdata.plant_name,
+        plant_price: this.state.plant_price,
+        plant_status: this.state.plant_status,
+        plant_desc: this.state.plant_desc
+      };
+      var data = new FormData();
+      for (let key in jsonObj) {
+        data.append(key, jsonObj[key]);
+      }
+      data.append("file", this.state.file);
+      const getUpdateData = await service.getUpdateData(this.state.data);
+
+      console.log("getUpdateData", getUpdateData);
     }
-
-    data.append("file", this.state.file);
-
-    const getAdminData = await service.getAdminData(data);
-
-    console.log("getAdminData", getAdminData);
-    window.location.assign('listofplant')
   }
   render() {
-    const {
-      plant_type,
-      plant_name,
-      plant_price,
-      plant_status,
-      // photo,
-      plant_desc
-    } = this.state;
+    // this.encyrpt()
+
+    var pageTitle;
+    if (this.state.param) {
+      pageTitle = <h2>Edit Product</h2>;
+      var { plant_type, plant_name } = this.state.plantdata;
+    } else {
+      pageTitle = <h2>Add Product</h2>;
+      var {
+        plant_type,
+        plant_name,
+        plant_price,
+        plant_status,
+        // photo,
+        plant_desc
+      } = this.state;
+    }
+
     return (
       <>
         <section className="contact-area">
@@ -84,7 +137,7 @@ class Admin extends Component {
             <div className="row align-items-center justify-content-between">
               <div className="col-12 col-lg-12">
                 <div className="section-heading">
-                  <h2>Add Plants</h2>
+                  <h2>{pageTitle}</h2>
                 </div>
 
                 <div className="contact-form-area mb-100">

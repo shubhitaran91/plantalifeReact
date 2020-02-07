@@ -43,9 +43,23 @@ export async function getAdminData(data){
 
 }
 
+export async function getUpdateData(data){
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    const res =await axios.post('http://localhost:5000/updatePlantData',data)
+    const result=res.data.message
+        console.log("========>",result)
+        if(result == "error"){
+            Notiflix.Report.Failure( 'Oops Something went wrong', 'Please Try Again', 'OK' );
+        }else{
+            Notiflix.Report.Success( 'Update Added Successfully', 'Click OK To Continue' );
+        }
+        return res;
+
+}
+
 export default {
     getAllPlants,
     getCheckoutData,
     getShoppingData,
-    getAdminData
+    getAdminData,getUpdateData
 };
