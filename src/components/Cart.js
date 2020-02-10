@@ -125,7 +125,7 @@ class Cart extends Component {
               </div>
 
               <div class="checkout-btn">
-                <Link to="checkout" class="btn plantalife-btn w-100">
+                <Link to="login" class="btn plantalife-btn w-100">
                   PROCEED TO CHECKOUT
                 </Link>
               </div>

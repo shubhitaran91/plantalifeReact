@@ -3,6 +3,7 @@ import Footer from "./footer";
 import service from "../service/plantService";
 import Notiflix from "notiflix-react";
 import queryString from "query-string";
+// import { withRouter } from 'react-router-dom';
 
 class Admin extends Component {
   constructor(props) {
@@ -84,7 +85,12 @@ class Admin extends Component {
       const getAdminData = await service.getAdminData(data);
 
       console.log("getAdminData", getAdminData);
-      window.location.assign("listofplant");
+       window.location.assign("listofplant");
+      //eslint-disable-next-line no-restricted-globals
+      // history.push({
+      //   pathname: `/listofplant/`,
+      //   // state: { detail: obj }
+      // });
     } else {
       var plantInfo = await queryString.parse(this.props.location.search, {
         ignoreQueryPrefix: true

@@ -14,10 +14,16 @@ class services extends Component {
 
   handleInput(e, name) {
     console.log("value of state", name);
-    // eslint-disable-next-line no-restricted-globals
-    location.assign(`plantData?plant_type=${name}`);
+    const { history } = this.props;
+    
+  
+    history.push({
+      pathname: `plantData`,
+      search: `?plant_type=${name}`,
+    });
   }
   render() {
+  
     return (
       <div>
         <section className="our-services-area bg-gray section-padding-150-0">
@@ -140,4 +146,4 @@ class services extends Component {
   }
 }
 
-export default services;
+export default withRouter(services);
