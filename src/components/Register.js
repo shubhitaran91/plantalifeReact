@@ -10,7 +10,7 @@ class Register extends Component {
   render() {
     return (
       <>
-        <div className="container">
+        <div className="container-fluid background">
           <div className="d-flex justify-content-center h-100">
             <div className="card">
               <div class="brand_logo_container">
