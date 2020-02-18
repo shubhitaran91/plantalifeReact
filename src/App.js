@@ -25,7 +25,7 @@ function App() {
         <Route path="/cart" component={Cart} />
         <Route path="/shopdetail" component={ShopDetail} />
         <Route path="/checkout" component={Checkout} />
-        <Route path="/admin" component={Admin} />
+        <Route path="/admin" component={Admin} /> 
         <Route path="/listofplant" component={DatatablePage}/>
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>

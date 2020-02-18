@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 const PlantData = props => {
   // const { promiseInProgress } = usePromiseTracker();
   var myPlant = JSON.parse(sessionStorage.getItem("myPlant"));
+  
   if (myPlant == null) {
     myPlant = [];
   }

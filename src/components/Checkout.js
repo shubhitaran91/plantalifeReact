@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import {Link} from "react-router-dom";
+
 import Background from "../static/img/bg-img/24.jpg";
 import service from "../service/plantService";
-
+import {
+  Link,
+  BrowserRouter as Router,
+  Route,
+  withRouter
+} from "react-router-dom";
 class Checkout extends Component {
   constructor(props) {
     super(props);
@@ -10,62 +15,75 @@ class Checkout extends Component {
     this.state = {
       myPlant: [],
       total: [],
-        fname: "",
-        lname: "",
-        email: "",
-        mobile: "",
-        address: "",
-        city: "",
-        states: "",
-        zip: "",
-        notes: "",
-        totalPrice:"",
-        shippingCharges:"",
-        totalCharges:""
+      userdata: "",
+      fname: "",
+      lname: "",
+      email: "",
+      mobile: "",
+      address: "",
+      city: "",
+      states: "",
+      zip: "",
+      notes: "",
+      totalPrice: "",
+      shippingCharges: "",
+      totalCharges: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
+    this.logout = this.logout.bind(this);
   }
-  
+
   componentDidMount = async () => {
     await this.setState({
+      userdata: JSON.parse(sessionStorage.getItem("token")),
       myPlant: JSON.parse(sessionStorage.getItem("myPlant"))
     });
+
+    await this.state.userdata.map(plant =>
+      this.setState({
+        userdata: plant
+      })
+    );
+    console.log("userdata", this.state.userdata);
     await this.getValues();
   };
-  
+
   async onSubmit() {
-    
-    
-     const jsonObj = {
-          fname: this.state.fname,
-          lname: this.state.lname,
-          email: this.state.email,
-          mobile: this.state.mobile,
-          address: this.state.address,
-          city: this.state.city,
-          state: this.state.states,
-          zip: this.state.zip,
-          notes: this.state.notes,
-          products: this.state.myPlant,
-          subtotal:this.state.totalPrice,
-          shipping:this.state.shippingCharges,
-          totalAmt:this.state.totalCharges
-          
-         
-        };
-        
-        const getCheckoutData = await service.getCheckoutData(jsonObj);
-       
-        console.log("getCheckoutData",getCheckoutData);
-      }
-      
-      updateInputValue = async e => {
-        await  this.setState({
-            [e.target.name]: e.target.value
-        });
-    
-      };
-      
+    const jsonObj = {
+      fname: this.state.userdata.fname,
+      lname: this.state.lname,
+      email: this.state.email,
+      mobile: this.state.mobile,
+      address: this.state.address,
+      city: this.state.city,
+      state: this.state.states,
+      zip: this.state.zip,
+      notes: this.state.notes,
+      products: this.state.myPlant,
+      subtotal: this.state.totalPrice,
+      shipping: this.state.shippingCharges,
+      totalAmt: this.state.totalCharges
+    };
+
+    //const getCheckoutData = await service.getCheckoutData(jsonObj);
+
+    console.log("getCheckoutData", jsonObj);
+  }
+
+  logout() {
+    const { history } = this.props;
+    sessionStorage.clear();
+    history.push({
+      pathname: "/"
+    });
+  }
+
+  updateInputValue = async e => {
+    await this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   getValues = async () => {
     var totalPrice = 0;
     var purchasePrice;
@@ -76,17 +94,21 @@ class Checkout extends Component {
       totalPrice = totalPrice + parseInt(purchasePrice);
       var shippingCharges = 10;
       var totalCharges = totalPrice + shippingCharges;
-      this.setState({totalPrice:totalPrice,totalCharges:totalCharges,shippingCharges:shippingCharges})
-    pi.push(totalPrice, shippingCharges, totalCharges);
-    this.setState({ total: pi });
+      this.setState({
+        totalPrice: totalPrice,
+        totalCharges: totalCharges,
+        shippingCharges: shippingCharges
+      });
+      pi.push(totalPrice, shippingCharges, totalCharges);
+      this.setState({ total: pi });
     }
-
-   
   };
 
   render() {
+    
+
     const {
-      fname,
+      
       lname,
       email,
       mobile,
@@ -136,7 +158,15 @@ class Checkout extends Component {
                       </a>
                     </div>
 
-                    <div className="top-header-meta d-flex"></div>
+                    <div className="top-header-meta d-flex">
+                      {/* <div class="login"> */}
+
+                      <button onClick={this.logout}>
+                        Logout <i class="fa fa-user" aria-hidden="true"></i>{" "}
+                      </button>
+
+                      {/* </div> */}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -215,8 +245,8 @@ class Checkout extends Component {
                           type="text"
                           name="fname"
                           className="form-control"
-                          value={fname}
-                          onChange={this.updateInputValue.bind(this)}
+                          value={this.state.userdata.fname}
+                          // onChange={this.updateInputValue.bind(this)}
                           required
                         />
                       </div>
@@ -385,4 +415,4 @@ class Checkout extends Component {
   }
 }
 
-export default Checkout;
+export default withRouter(Checkout);
