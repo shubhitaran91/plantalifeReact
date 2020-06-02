@@ -1,0 +1,8 @@
+export const FETCH_PLANT_DATA_SUCCESS = "FETCH_PLANT_DATA_SUCCESS";
+export const FETCH_PLANT_DATA_FAIL = "FETCH_PLANT_DATA_FAIL";
+
+export const ADD_TO_CART = "ADD_TO_CART";
+export const DELETE_FROM_CART = "DELETE_FROM_CART";
+
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
