@@ -17,7 +17,7 @@
     "jquery": "^3.4.1",
     "material-ui": "^0.20.2",
     "mdbreact": "^4.24.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "notiflix-react": "^1.4.0",
     "query-string": "^6.10.1",
     "react": "^16.12.0",
